@@ -9,11 +9,11 @@ Template::Timer - Rudimentary profiling for Template Toolkit
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -64,9 +64,9 @@ foreach my $sub ( qw( process include ) ) {
     *$sub = sub {
         my $self     = shift;
         my $template = ref $_[0] ? $_[0]->name : $_[0];
-        my $start    = [Timer::HiRes::gettimeofday];
+        my $start    = [Time::HiRes::gettimeofday];
         my $data     = $super->($self, @_);
-        my $elapsed  = Timer::HiRes::tv_interval($start);
+        my $elapsed  = Time::HiRes::tv_interval($start);
         return "\n<!-- TIMER START: $sub $template -->\n$data\n<!-- TIMER END: $sub $template ($elapsed seconds) -->\n";
     }; # sub
 } # for

@@ -1,5 +1,10 @@
 Revision history for Template::Timer
 
+0.02    Tue Oct 26 11:08:33 CDT 2004
+
+        * First actual working version.  Fixed bonheaded typo.
+
+
 0.01    Tue Oct 26 09:58:24 CDT 2004
 
         * First rudimentary version.  Patches and comments welcome.
