@@ -5,4 +5,5 @@ Makefile.PL
 README
 Timer.pm
 t/00-load.t
+t/eval.t
 t/pod.t

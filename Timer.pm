@@ -9,11 +9,11 @@ Template::Timer - Rudimentary profiling for Template Toolkit
 
 =head1 VERSION
 
-Version 0.02
+Version 0.04
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 
@@ -44,7 +44,7 @@ output, which you can easily grep for.
     <!-- TIMER END: process mainmenu/cssindex.tt (0.017279 seconds) -->
     <!-- TIMER END: include mainmenu/cssindex.tt (0.017401 seconds) -->
 
-....
+    ....
 
     <!-- TIMER END: process mainmenu/footer.tt (0.003016 seconds) -->
     <!-- TIMER END: include mainmenu/footer.tt (0.003104 seconds) -->
@@ -63,23 +63,29 @@ foreach my $sub ( qw( process include ) ) {
     my $super = __PACKAGE__->can("SUPER::$sub") or die;
     *$sub = sub {
         my $self     = shift;
-        my $template = ref $_[0] ? $_[0]->name : $_[0];
+        my $template = ref $_[0] eq 'ARRAY'
+                            ? join( ' + ', @{$_[0]} )
+                            : ref $_[0] ? $_[0]->name : $_[0];
         my $start    = [Time::HiRes::gettimeofday];
         my $data     = $super->($self, @_);
         my $elapsed  = Time::HiRes::tv_interval($start);
-        return "\n<!-- TIMER START: $sub $template -->\n$data\n<!-- TIMER END: $sub $template ($elapsed seconds) -->\n";
+        return <<"END"
+<!-- TIMER START: $sub $template -->
+$data
+<!-- TIMER END: $sub $template ($elapsed seconds) -->
+END
     }; # sub
 } # for
 
 
 =head1 AUTHOR
 
-Andy Lester, C<< <andy@petdance.com> >>
+Andy Lester, C<< <andy at petdance.com> >>
 
 =head1 BUGS
 
 Please report any bugs or feature requests to
-C<bug-template-timer@rt.cpan.org>, or through the web interface at
+C<bug-template-timer at rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.  I will be notified, and then you'll automatically
 be notified of progress on your bug as I make changes.
 
@@ -87,11 +93,12 @@ be notified of progress on your bug as I make changes.
 
 Thanks to
 Randal Schwartz,
+Bill Moseley,
 and to Gavin Estey for the original code.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2004 Andy Lester, All Rights Reserved.
+Copyright 2005 Andy Lester, All Rights Reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
