@@ -1,9 +1,13 @@
 Changes
+LICENSE.md
 MANIFEST
 META.yml # Will be created by "make dist"
 Makefile.PL
-README
+README.md
 Timer.pm
 t/00-load.t
 t/eval.t
 t/pod.t
+t/include.tt
+t/process.tt
+META.json                                Module JSON meta-data (added by MakeMaker)
